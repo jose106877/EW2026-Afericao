@@ -12,6 +12,8 @@ services:
       context: ./ex1
       dockerfile: Dockerfile # O teu servidor de API minimalista
     container_name: api_dados_repairs
+    ports:
+      - "16025:16025"
     environment:
       - MONGO_URL=mongodb://mongodb:27017/autoRepair
     depends_on:

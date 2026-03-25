@@ -1,0 +1,70 @@
+Projeto: EW2026-Afericao
+
+Resumo
+Este projeto foi dividido em dois servicos:
+1) ex1: API de dados sobre reparacoes, com persistencia em MongoDB.
+2) ex2: Interface Web (Express + Pug) que consome a API de dados.
+
+Persistencia de dados
+- SGBD: MongoDB
+- Base de dados: autoRepair
+- Colecao: repairs
+- Modelo de documento: esquema flexivel (strict: false), mantendo os campos do dataset.
+
+Setup da base de dados e importacao
+Foi usado mongoimport para carregar o dataset para MongoDB.
+
+Importacao automatica no Docker:
+- Ficheiro: ex1/mongo-init/import.sh
+- Comando usado no init:
+  mongoimport --host localhost --db autoRepair --collection repairs --type json --file /docker-entrypoint-initdb.d/dataset_reparacoes.json --jsonArray
+
+API de dados (Exercicio 1.3)
+Servico: ex1/myServer_sel_proj.js
+Porta: 16025
+
+Rotas implementadas:
+- GET /repairs
+- GET /repairs/:id
+- GET /repairs?ano=YYYY
+- GET /repairs?marca=VRUM
+- GET /repairs/matriculas (sem acento)
+- GET /repairs/matr%C3%ADculas (com acento, via URL encoded)
+- GET /repairs/interv
+- POST /repairs
+- DELETE /repairs/:id
+
+Queries pedidas no warm-up (Exercicio 1.2)
+As queries MongoDB estao no ficheiro:
+- ex1/queries.txt
+
+Este ficheiro contem comandos para:
+1) total de automoveis reparados
+2) total de automoveis da marca Cadillac
+3) lista de marcas (sem repeticoes, ordenada)
+4) distribuicao por tipo de reparacao
+5) distribuicao de clientes por ano
+
+Interface Web (Exercicio 2)
+Servico: ex2
+Porta: 16026
+Fonte de dados: API (nao acede diretamente ao MongoDB)
+
+Comportamento implementado:
+- GET / : pagina principal com metainformacao e tabela de registos
+- GET /:id : pagina de detalhe de um registo
+- GET /:marca : pagina da marca com lista de modelos e tabela de registos
+
+No frontend, os links seguem o enunciado:
+- _id aponta para /:id
+- marca aponta para /:marca
+
+Na raiz de EW2026-Afericao:
+1) docker compose up -d --build
+2) API: http://localhost:16025/repairs
+3) Interface: http://localhost:16026
+
+
+Observacoes finais
+- A interface foi desenhada para consumir exclusivamente a API.
+- A base de dados e colecao pedidas no enunciado foram respeitadas (autoRepair / repairs).

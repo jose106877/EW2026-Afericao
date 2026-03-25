@@ -1,0 +1,58 @@
+extends layout
+
+block content
+  .w3-card-4
+    header.w3-container.w3-teal
+      h2 Registo de Reparacao
+
+    .w3-container.w3-padding-16
+      if repair
+        ul.w3-ul
+          li
+            strong _id:
+            |  #{repair._id}
+          li
+            strong Nome:
+            |  #{repair.nome}
+          li
+            strong NIF:
+            |  #{repair.nif}
+          li
+            strong Data:
+            |  #{repair.data}
+          li
+            strong Marca:
+            |  #{repair.viatura && repair.viatura.marca ? repair.viatura.marca : ''}
+          li
+            strong Modelo:
+            |  #{repair.viatura && repair.viatura.modelo ? repair.viatura.modelo : ''}
+          li
+            strong Matricula:
+            |  #{repair.viatura && repair.viatura.matricula ? repair.viatura.matricula : ''}
+          li
+            strong Numero de intervencoes:
+            |  #{repair.nr_intervencoes}
+
+        h3 Intervencoes
+        if repair.intervencoes && repair.intervencoes.length
+          table.w3-table-all.w3-hoverable
+            thead
+              tr.w3-teal
+                th Codigo
+                th Nome
+                th Descricao
+            tbody
+              each i in repair.intervencoes
+                tr
+                  td= i.codigo
+                  td= i.nome
+                  td= i.descricao
+        else
+          .w3-panel.w3-pale-yellow.w3-leftbar.w3-border-yellow
+            p Sem intervencoes associadas.
+      else
+        .w3-panel.w3-pale-red.w3-leftbar.w3-border-red
+          p Registo nao encontrado.
+
+      .w3-bar
+        a.w3-button.w3-round-large.w3-teal.w3-margin-top(href='/') Voltar a pagina principal

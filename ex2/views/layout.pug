@@ -1,0 +1,12 @@
+doctype html
+html
+  head
+    title= title || 'Reparacoes'
+    meta(charset='UTF-8')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    block content
+    footer.w3-container.w3-teal.w3-margin-top
+      h5 EngWeb2026 - Interface de Reparacoes
+      if date
+        p Atualizado em #{date}

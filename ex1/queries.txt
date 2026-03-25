@@ -1,0 +1,38 @@
+# 1. Quantos automóveis foram reparados?
+
+db.repairs.countDocuments()
+
+# 2. Quantos automóveis da marca "Cadillac" foram reparados?
+
+db.repairs.countDocuments({"viatura.marca": "Cadillac"})
+
+# 3. Que marcas de automóveis já apareceram na oficina
+
+db.repairs.distinct("viatura.marca").sort()
+
+# 4. Qual a distribuição por tipo de reparação?
+
+db.repairs.aggregate([
+{ $unwind: "$intervencoes" },
+{ $group: { _id: "$intervencoes.nome", total: { $sum: 1 } } },
+{ $sort: { total: -1 } }
+])
+
+# 5. Qual a distribuição do número de clientes por ano?
+
+db.repairs.aggregate([
+{
+$group: {
+_id: { $substr: ["$data", 0, 4] },
+clientes: { $addToSet: "$nif" }
+}
+},
+{
+$project: {
+ano: "$_id",
+totalClientes: { $size: "$clientes" },
+_id: 0
+}
+},
+{ $sort: { ano: 1 } }
+])

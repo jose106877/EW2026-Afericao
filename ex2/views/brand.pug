@@ -1,0 +1,44 @@
+extends layout
+
+block content
+  .w3-card-4
+    header.w3-container.w3-teal
+      h2 Marca: #{marca}
+
+    .w3-container.w3-padding-16
+      h3 Modelos intervencionados
+      if modelos && modelos.length
+        ul.w3-ul
+          each m in modelos
+            li= m
+      else
+        .w3-panel.w3-pale-yellow.w3-leftbar.w3-border-yellow
+          p Sem modelos encontrados.
+
+      h3 Registos da marca
+      if repairs && repairs.length
+        table.w3-table-all.w3-hoverable
+          thead
+            tr.w3-teal
+              th _id
+              th Data
+              th Nome
+              th Matricula
+              th Marca
+              th Nr Intervencoes
+          tbody
+            each r in repairs
+              tr
+                td
+                  a(href='/' + r._id)= r._id
+                td= r.data
+                td= r.nome
+                td= r.viatura && r.viatura.matricula ? r.viatura.matricula : ''
+                td= r.viatura && r.viatura.marca ? r.viatura.marca : ''
+                td= r.nr_intervencoes
+      else
+        .w3-panel.w3-pale-yellow.w3-leftbar.w3-border-yellow
+          p Sem registos para esta marca.
+
+      .w3-bar
+        a.w3-button.w3-round-large.w3-teal.w3-margin-top(href='/') Voltar a pagina principal
